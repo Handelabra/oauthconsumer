@@ -8,16 +8,16 @@
 
 #import "OAProblem.h"
 
-const NSString *signature_method_rejected = @"signature_method_rejected";
-const NSString *parameter_absent = @"parameter_absent";
-const NSString *version_rejected = @"version_rejected";
-const NSString *consumer_key_unknown = @"consumer_key_unknown";
-const NSString *token_rejected = @"token_rejected";
-const NSString *signature_invalid = @"signature_invalid";
-const NSString *nonce_used = @"nonce_used";
-const NSString *timestamp_refused = @"timestamp_refused";
-const NSString *token_expired = @"token_expired";
-const NSString *token_not_renewable = @"token_not_renewable";
+static NSString* const signature_method_rejected = @"signature_method_rejected";
+static NSString* const parameter_absent = @"parameter_absent";
+static NSString* const version_rejected = @"version_rejected";
+static NSString* const consumer_key_unknown = @"consumer_key_unknown";
+static NSString* const token_rejected = @"token_rejected";
+static NSString* const signature_invalid = @"signature_invalid";
+static NSString* const nonce_used = @"nonce_used";
+static NSString* const timestamp_refused = @"timestamp_refused";
+static NSString* const token_expired = @"token_expired";
+static NSString* const token_not_renewable = @"token_not_renewable";
 
 @implementation OAProblem
 
