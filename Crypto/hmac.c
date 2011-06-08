@@ -32,6 +32,7 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include "hmac.h"
 
 void hmac_sha1(const u_int8_t *inText, size_t inTextLength, u_int8_t* inKey, size_t inKeyLength, u_int8_t *outDigest)
 {
