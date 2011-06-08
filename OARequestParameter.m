@@ -31,11 +31,20 @@
 @synthesize name, value;
 
 - (id)initWithName:(NSString *)aName value:(NSString *)aValue {
-    [super init];
-    self.name = aName;
-    self.value = aValue;
-    return self;
+	self = [super init];
+	if (self != nil) {
+    name = [aName copy];
+    value = [aValue copy];
+	}
+	return self;
 }
+
+- (void)dealloc {
+	[name release], name = nil;
+	[value release], value = nil;
+	[super dealloc];
+}
+
 
 - (NSString *)URLEncodedName {
 	return self.name;
