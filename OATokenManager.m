@@ -6,6 +6,7 @@
 //  Copyright 2008 Alberto García Hierro. All rights reserved.
 //	bynotes.com
 
+#import <UIKit/UIKit.h>
 #import "OAConsumer.h"
 #import "OAToken.h"
 #import "OAProblem.h"
@@ -86,7 +87,7 @@
 
 // The application got a new authorized
 // request token and is notifying us
-- (void)authorizedToken:(const NSString *)aKey
+- (void)authorizedToken:(NSString *)aKey
 {
 	if (reqToken && [aKey isEqualToString:reqToken.key]) {
 		[self exchangeToken];
