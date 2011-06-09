@@ -35,28 +35,29 @@
 
 @interface OAMutableURLRequest : NSMutableURLRequest {
 @protected
-    OAConsumer *consumer;
-    OAToken *token;
-    NSString *realm;
-    NSString *signature;
-    id<OASignatureProviding> signatureProvider;
-    NSString *nonce;
-    NSString *timestamp;
+	OAConsumer *consumer;
+	OAToken *token;
+	NSString *realm;
+	NSString *signature;
+	NSObject<OASignatureProviding>* signatureProvider;
+	NSString *nonce;
+	NSString *timestamp;
 }
+
 @property(readonly) NSString *signature;
 @property(readonly) NSString *nonce;
 
 - (id)initWithURL:(NSURL *)aUrl
-		 consumer:(OAConsumer *)aConsumer
-			token:(OAToken *)aToken
+				 consumer:(OAConsumer *)aConsumer
+						token:(OAToken *)aToken
             realm:(NSString *)aRealm
-signatureProvider:(id<OASignatureProviding, NSObject>)aProvider;
+signatureProvider:(NSObject<OASignatureProviding>*)aProvider;
 
 - (id)initWithURL:(NSURL *)aUrl
-		 consumer:(OAConsumer *)aConsumer
-			token:(OAToken *)aToken
+				 consumer:(OAConsumer *)aConsumer
+						token:(OAToken *)aToken
             realm:(NSString *)aRealm
-signatureProvider:(id<OASignatureProviding, NSObject>)aProvider
+signatureProvider:(NSObject<OASignatureProviding>*)aProvider
             nonce:(NSString *)aNonce
         timestamp:(NSString *)aTimestamp;
 
