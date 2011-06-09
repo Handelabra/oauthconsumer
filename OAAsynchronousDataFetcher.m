@@ -23,7 +23,6 @@
 //  THE SOFTWARE.
 
 #import "OAAsynchronousDataFetcher.h"
-
 #import "OAServiceTicket.h"
 
 @implementation OAAsynchronousDataFetcher
@@ -47,28 +46,26 @@
 
 - (void)start
 {    
-    [request prepare];
+	[request prepare];
 	
-	if (connection)
-		[connection release];
-	
+	[connection release], connection = nil;
+
 	connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
-    
+	
 	if (connection)
 	{
-		if (responseData)
-			[responseData release];
-		responseData = [[NSMutableData data] retain];
+		[responseData release], responseData = nil;
+		responseData = [NSMutableData new];
 	}
 	else
 	{
-        OAServiceTicket *ticket= [[OAServiceTicket alloc] initWithRequest:request
-                                                                 response:nil
-                                                                     data:nil
-                                                               didSucceed:NO];
-        [delegate performSelector:didFailSelector
-                       withObject:ticket
-                       withObject:nil];
+		OAServiceTicket *ticket= [[OAServiceTicket alloc] initWithRequest:request
+																														 response:nil
+																																 data:nil
+																													 didSucceed:NO];
+		[delegate performSelector:didFailSelector
+									 withObject:ticket
+									 withObject:nil];
 		[ticket release];
 	}
 }
@@ -78,17 +75,17 @@
 	if (connection)
 	{
 		[connection cancel];
-		[connection release];
-		connection = nil;
+		[connection release], connection = nil;
 	}
 }
 
 - (void)dealloc
 {
-	if (request) [request release];
-	if (connection) [connection release];
-	if (response) [response release];
-	if (responseData) [responseData release];
+	[request release], request = nil;
+	[connection release], connection = nil;
+	[response release], response = nil;
+	[responseData release], responseData = nil;
+	
 	[super dealloc];
 }
 
@@ -97,8 +94,7 @@
 
 - (void)connection:(NSURLConnection *)aConnection didReceiveResponse:(NSURLResponse *)aResponse
 {
-	if (response)
-		[response release];
+	[response release], response = nil;
 	response = [aResponse retain];
 	[responseData setLength:0];
 }
@@ -111,12 +107,12 @@
 - (void)connection:(NSURLConnection *)aConnection didFailWithError:(NSError *)error
 {
 	OAServiceTicket *ticket= [[OAServiceTicket alloc] initWithRequest:request
-															 response:response
-                                                                 data:nil
-														   didSucceed:NO];
+																													 response:response
+																															 data:nil
+																												 didSucceed:NO];
 	[delegate performSelector:didFailSelector
-				   withObject:ticket
-				   withObject:error];
+								 withObject:ticket
+								 withObject:error];
 	
 	[ticket release];
 }
@@ -124,12 +120,12 @@
 - (void)connectionDidFinishLoading:(NSURLConnection *)aConnection
 {
 	OAServiceTicket *ticket = [[OAServiceTicket alloc] initWithRequest:request
-															  response:response
-                                                                  data:nil
-															didSucceed:[(NSHTTPURLResponse *)response statusCode] < 400];
+																														response:response
+																																data:nil
+																													didSucceed:[(NSHTTPURLResponse *)response statusCode] < 400];
 	[delegate performSelector:didFinishSelector
-				   withObject:ticket
-				   withObject:responseData];
+								 withObject:ticket
+								 withObject:responseData];
 	
 	[ticket release];
 }
