@@ -55,15 +55,17 @@
 - (id)initWithKey:(NSString *)aKey secret:(NSString *)aSecret session:(NSString *)aSession
 		 duration:(NSNumber *)aDuration attributes:(NSDictionary *)theAttributes created:(NSDate *)creation
 		renewable:(BOOL)renew {
-	[super init];
-	self.key = aKey;
-	self.secret = aSecret;
-	self.session = aSession;
-	self.duration = aDuration;
-	self.attributes = theAttributes;
-	created = [creation retain];
-	renewable = renew;
-	forRenewal = NO;
+	self = [super init];
+	if (self != nil) {
+		self.key = aKey;
+		self.secret = aSecret;
+		self.session = aSession;
+		self.duration = aDuration;
+		self.attributes = theAttributes;
+		created = [creation retain];
+		renewable = renew;
+		forRenewal = NO;
+	}
 
 	return self;
 }
@@ -104,20 +106,22 @@
 }
 
 - (id)initWithUserDefaultsUsingServiceProviderName:(const NSString *)provider prefix:(const NSString *)prefix {
-	[super init];
-	self.key = [OAToken loadSetting:@"key" provider:provider prefix:prefix];
-	self.secret = [OAToken loadSetting:@"secret" provider:provider prefix:prefix];
-	self.session = [OAToken loadSetting:@"session" provider:provider prefix:prefix];
-	self.duration = [OAToken loadSetting:@"duration" provider:provider prefix:prefix];
-	self.attributes = [OAToken loadSetting:@"attributes" provider:provider prefix:prefix];
-	created = [OAToken loadSetting:@"created" provider:provider prefix:prefix];
-	renewable = [[OAToken loadSetting:@"renewable" provider:provider prefix:prefix] boolValue];
+	self = [super init];
+	if (self != nil) {
+		self.key = [OAToken loadSetting:@"key" provider:provider prefix:prefix];
+		self.secret = [OAToken loadSetting:@"secret" provider:provider prefix:prefix];
+		self.session = [OAToken loadSetting:@"session" provider:provider prefix:prefix];
+		self.duration = [OAToken loadSetting:@"duration" provider:provider prefix:prefix];
+		self.attributes = [OAToken loadSetting:@"attributes" provider:provider prefix:prefix];
+		created = [[OAToken loadSetting:@"created" provider:provider prefix:prefix] retain];
+		renewable = [[OAToken loadSetting:@"renewable" provider:provider prefix:prefix] boolValue];
 
-	if (![self isValid]) {
-		[self autorelease];
-		return nil;
+		if (![self isValid]) {
+			[self release];
+			return nil;
+		}
 	}
-	
+
 	return self;
 }
 
