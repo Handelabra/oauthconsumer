@@ -35,6 +35,9 @@
 - (void)dequeue:(OACall *)call;
 - (SEL)getSelector:(OACall *)call;
 
+- (void)requestTokenReceived:(OACall *)call body:(NSString *)body;
+- (void)accessTokenReceived:(OACall *)call body:(NSString *)body;
+
 @end
 
 @implementation OATokenManager
