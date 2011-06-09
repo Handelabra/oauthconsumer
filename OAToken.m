@@ -48,8 +48,12 @@
 }
 
 - (id)initWithKey:(NSString *)aKey secret:(NSString *)aSecret {
-	return [self initWithKey:aKey secret:aSecret session:nil duration:nil
-				  attributes:nil created:nil renewable:NO];
+	self = [super init];
+	if (self != nil) {
+		self.key = aKey;
+		self.secret = aSecret;
+	}
+	return self;
 }
 
 - (id)initWithKey:(NSString *)aKey secret:(NSString *)aSecret session:(NSString *)aSession
@@ -62,7 +66,7 @@
 		self.session = aSession;
 		self.duration = aDuration;
 		self.attributes = theAttributes;
-		created = [creation retain];
+		created = [creation copy];
 		renewable = renew;
 		forRenewal = NO;
 	}
@@ -71,7 +75,7 @@
 }
 
 - (id)initWithHTTPResponseBody:(NSString *)body {
-    NSString *aKey = nil;
+	NSString *aKey = nil;
 	NSString *aSecret = nil;
 	NSString *aSession = nil;
 	NSNumber *aDuration = nil;
@@ -113,7 +117,7 @@
 		self.session = [OAToken loadSetting:@"session" provider:provider prefix:prefix];
 		self.duration = [OAToken loadSetting:@"duration" provider:provider prefix:prefix];
 		self.attributes = [OAToken loadSetting:@"attributes" provider:provider prefix:prefix];
-		created = [[OAToken loadSetting:@"created" provider:provider prefix:prefix] retain];
+		created = [[OAToken loadSetting:@"created" provider:provider prefix:prefix] copy];
 		renewable = [[OAToken loadSetting:@"renewable" provider:provider prefix:prefix] boolValue];
 
 		if (![self isValid]) {
@@ -128,10 +132,12 @@
 #pragma mark dealloc
 
 - (void)dealloc {
-    self.key = nil;
-    self.secret = nil;
-    self.duration = nil;
-    self.attributes = nil;
+	self.key = nil;
+	[session release], session = nil;
+	self.secret = nil;
+	self.duration = nil;
+	self.attributes = nil;
+	[created release], created = nil;
 	[super dealloc];
 }
 
@@ -181,13 +187,9 @@
 }
 
 - (void)setAttributes:(NSDictionary *)theAttributes {
-	[attributes release];
-	if (theAttributes) {
-		attributes = [[NSMutableDictionary alloc] initWithDictionary:theAttributes];
-	}else {
-		attributes = nil;
-	}
-	
+	NSMutableDictionary * copy = [theAttributes mutableCopy];
+	[attributes release], attributes = nil;
+	attributes = copy;
 }
 
 - (BOOL)hasAttributes {

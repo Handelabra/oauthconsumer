@@ -158,8 +158,7 @@ signatureProvider:(NSObject<OASignatureProviding>*)aProvider
 	NSArray *parameters = [self parameters];
 	NSMutableArray *parameterPairs = [[NSMutableArray alloc] initWithCapacity:(5 + [parameters count] + [tokenParameters count])];
 
-	OARequestParameter *parameter;
-	parameter = [[OARequestParameter alloc] initWithName:@"oauth_consumer_key" value:consumer.key];
+	OARequestParameter *parameter = [[OARequestParameter alloc] initWithName:@"oauth_consumer_key" value:consumer.key];
 
 	[parameterPairs addObject:[parameter URLEncodedNameValuePair]];
 	[parameter release];

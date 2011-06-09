@@ -33,6 +33,7 @@ static NSString* const token_not_renewable = @"token_not_renewable";
 	return self;
 }
 
+/* looks up the valid shared problems, and sets self.problem to the result if found. otherwise, sets self.problem to nil. */
 - (void)setProblemToValidProblem:(NSString *)aProblem
 {
 	NSUInteger idx = [[OAProblem validProblems] indexOfObject:aProblem];
@@ -46,16 +47,15 @@ static NSString* const token_not_renewable = @"token_not_renewable";
 	problem = next;	
 }
 
-- (id)initWithProblem:(NSString *) aProblem
+- (id)initWithProblem:(NSString *)aProblem
 {
 	self = [super init];
 	if (self != nil) {
-		NSUInteger idx = [[OAProblem validProblems] indexOfObject:aProblem];
-		if (idx == NSNotFound) {
+		[self setProblemToValidProblem:aProblem];
+		if (problem == nil) {
 			[self release];
 			return nil;
 		}
-		[self setProblemToValidProblem:aProblem];
 	}
 
 	return self;

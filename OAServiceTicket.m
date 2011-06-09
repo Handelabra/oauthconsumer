@@ -33,17 +33,26 @@
 - (id)initWithRequest:(OAMutableURLRequest *)aRequest response:(NSURLResponse *)aResponse data:(NSData *)aData didSucceed:(BOOL)success {
 	self = [super init];
 	if (self != nil) {
-		request = aRequest;
-		response = aResponse;
-		data = aData;
+		request = [aRequest retain];
+		response = [aResponse retain];
+		data = [aData copy];
 		didSucceed = success;
 	}
 	return self;
 }
 
+- (void)dealloc
+{
+	[request release], request = nil;
+	[response release], response = nil;
+	[data release], data = nil;
+
+	[super dealloc];
+}
+
 - (NSString *)body
 {
-	if (!data) {
+	if (data == nil) {
 		return nil;
 	}
 	

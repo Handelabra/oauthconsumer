@@ -30,11 +30,12 @@
 
 @interface OAServiceTicket : NSObject {
 @private
-    OAMutableURLRequest *request;
-    NSURLResponse *response;
+	OAMutableURLRequest *request;
+	NSURLResponse *response;
 	NSData *data;
-    BOOL didSucceed;
+	BOOL didSucceed;
 }
+
 @property(readonly) OAMutableURLRequest *request;
 @property(readonly) NSURLResponse *response;
 @property(readonly) NSData *data;
