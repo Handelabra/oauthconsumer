@@ -222,7 +222,7 @@ signatureProvider:(NSObject<OASignatureProviding>*)aProvider
 {
 	[consumer release], consumer = nil;
 	[token release], token = nil;
-	[(NSObject*)signatureProvider release], signatureProvider = nil;
+	[signatureProvider release], signatureProvider = nil;
 	[timestamp release], timestamp = nil;
 	CFRelease(nonce), nonce = 0;
 	[super dealloc];

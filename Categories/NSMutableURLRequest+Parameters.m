@@ -25,7 +25,7 @@
 
 #import "NSMutableURLRequest+Parameters.h"
 
-static NSString *Boundary = @"-----------------------------------0xCoCoaouTHeBouNDaRy"; 
+static NSString* const Boundary = @"-----------------------------------0xCoCoaouTHeBouNDaRy"; 
 
 @implementation NSMutableURLRequest (OAParameterAdditions)
 
