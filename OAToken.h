@@ -36,6 +36,7 @@
 	BOOL renewable;
 	BOOL forRenewal;
 }
+
 @property(retain, readwrite) NSString *key;
 @property(retain, readwrite) NSString *secret;
 @property(retain, readwrite) NSString *session;
@@ -67,6 +68,6 @@
 
 - (BOOL)isEqualToToken:(OAToken *)aToken;
 
-+ (void)removeFromUserDefaultsWithServiceProviderName:(const NSString *)provider prefix:(const NSString *)prefix;
++ (void)removeFromUserDefaultsWithServiceProviderName:(NSString *)provider prefix:(NSString *)prefix;
 
 @end

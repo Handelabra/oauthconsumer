@@ -23,7 +23,7 @@ static NSString* const token_not_renewable = @"token_not_renewable";
 
 @synthesize problem;
 
-- (id)initWithPointer:(const NSString *) aPointer
+- (id)initWithPointer:(NSString *) aPointer
 {
 	self = [super init];
 	if (self != nil) {
@@ -33,7 +33,7 @@ static NSString* const token_not_renewable = @"token_not_renewable";
 	return self;
 }
 
-- (id)initWithProblem:(const NSString *) aProblem
+- (id)initWithProblem:(NSString *) aProblem
 {
 	NSUInteger idx = [[OAProblem validProblems] indexOfObject:aProblem];
 	if (idx == NSNotFound) {
@@ -43,7 +43,7 @@ static NSString* const token_not_renewable = @"token_not_renewable";
 	return [self initWithPointer: [[OAProblem validProblems] objectAtIndex:idx]];
 }
 	
-- (id)initWithResponseBody:(const NSString *) response
+- (id)initWithResponseBody:(NSString *) response
 {
 	NSArray *fields = [response componentsSeparatedByString:@"&"];
 	for (NSString *field in fields) {
@@ -56,12 +56,12 @@ static NSString* const token_not_renewable = @"token_not_renewable";
 	return nil;
 }
 
-+ (OAProblem *)problemWithResponseBody:(const NSString *) response
++ (OAProblem *)problemWithResponseBody:(NSString *) response
 {
 	return [[[OAProblem alloc] initWithResponseBody:response] autorelease];
 }
 
-+ (const NSArray *)validProblems
++ (NSArray *)validProblems
 {
 	static NSArray *array;
 	if (!array) {
@@ -86,7 +86,7 @@ static NSString* const token_not_renewable = @"token_not_renewable";
 	return [problem isEqualToString:(NSString *)aProblem->problem];
 }
 
-- (BOOL)isEqualToString:(const NSString *) aProblem
+- (BOOL)isEqualToString:(NSString *) aProblem
 {
 	return [problem isEqualToString:(NSString *)aProblem];
 }

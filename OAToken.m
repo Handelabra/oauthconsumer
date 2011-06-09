@@ -29,9 +29,9 @@
 
 @interface OAToken (Private)
 
-+ (NSString *)settingsKey:(const NSString *)name provider:(const NSString *)provider prefix:(const NSString *)prefix;
-+ (id)loadSetting:(const NSString *)name provider:(const NSString *)provider prefix:(const NSString *)prefix;
-+ (void)saveSetting:(NSString *)name object:(id)object provider:(const NSString *)provider prefix:(const NSString *)prefix;
++ (NSString *)settingsKey:(NSString *)name provider:(NSString *)provider prefix:(NSString *)prefix;
++ (id)loadSetting:(NSString *)name provider:(NSString *)provider prefix:(NSString *)prefix;
++ (void)saveSetting:(NSString *)name object:(id)object provider:(NSString *)provider prefix:(NSString *)prefix;
 + (NSNumber *)durationWithString:(NSString *)aDuration;
 + (NSDictionary *)attributesWithString:(NSString *)theAttributes;
 
@@ -70,7 +70,7 @@
 	return self;
 }
 
-- (id)initWithHTTPResponseBody:(const NSString *)body {
+- (id)initWithHTTPResponseBody:(NSString *)body {
     NSString *aKey = nil;
 	NSString *aSecret = nil;
 	NSString *aSession = nil;
@@ -105,7 +105,7 @@
 				  attributes:attrs created:creationDate renewable:renew];
 }
 
-- (id)initWithUserDefaultsUsingServiceProviderName:(const NSString *)provider prefix:(const NSString *)prefix {
+- (id)initWithUserDefaultsUsingServiceProviderName:(NSString *)provider prefix:(NSString *)prefix {
 	self = [super init];
 	if (self != nil) {
 		self.key = [OAToken loadSetting:@"key" provider:provider prefix:prefix];
@@ -141,7 +141,7 @@
 	return (key != nil && ![key isEqualToString:@""] && secret != nil && ![secret isEqualToString:@""]);
 }
 
-- (int)storeInUserDefaultsWithServiceProviderName:(const NSString *)provider prefix:(const NSString *)prefix {
+- (int)storeInUserDefaultsWithServiceProviderName:(NSString *)provider prefix:(NSString *)prefix {
 	[OAToken saveSetting:@"key" object:key provider:provider prefix:prefix];
 	[OAToken saveSetting:@"secret" object:secret provider:provider prefix:prefix];
 	[OAToken saveSetting:@"created" object:created provider:provider prefix:prefix];
@@ -173,7 +173,7 @@
 
 #pragma mark attributes
 
-- (void)setAttribute:(const NSString *)aKey value:(const NSString *)aAttribute {
+- (void)setAttribute:(NSString *)aKey value:(NSString *)aAttribute {
 	if (!attributes) {
 		attributes = [[NSMutableDictionary alloc] init];
 	}
