@@ -1,13 +1,12 @@
 //
-//  OAAttachment.h
-//  Zeus
+// OAAttachment.h
+// Zeus
 //
-//  Created by Jamie Pinkham on 2/3/11.
-//  Copyright 2011 Tumblr. All rights reserved.
+// Created by Jamie Pinkham on 2/3/11.
+// Copyright 2011 Tumblr. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-
 
 @interface OAAttachment : NSObject {
 	NSString *name;

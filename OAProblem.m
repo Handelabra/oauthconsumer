@@ -29,36 +29,70 @@ static NSString* const token_not_renewable = @"token_not_renewable";
 	if (self != nil) {
 		problem = [aPointer retain];
 	}
-
+	
 	return self;
+}
+
+- (void)setProblemToValidProblem:(NSString *)aProblem
+{
+	NSUInteger idx = [[OAProblem validProblems] indexOfObject:aProblem];
+	if (idx == NSNotFound) {
+		[problem release], problem = nil;
+		return;
+	}
+
+	NSString * next = [[[OAProblem validProblems] objectAtIndex:idx] retain];
+	[problem release], problem = nil;
+	problem = next;	
 }
 
 - (id)initWithProblem:(NSString *) aProblem
 {
-	NSUInteger idx = [[OAProblem validProblems] indexOfObject:aProblem];
-	if (idx == NSNotFound) {
-		return nil;
+	self = [super init];
+	if (self != nil) {
+		NSUInteger idx = [[OAProblem validProblems] indexOfObject:aProblem];
+		if (idx == NSNotFound) {
+			[self release];
+			return nil;
+		}
+		[self setProblemToValidProblem:aProblem];
 	}
-	
-	return [self initWithPointer: [[OAProblem validProblems] objectAtIndex:idx]];
+
+	return self;
 }
 	
 - (id)initWithResponseBody:(NSString *) response
 {
-	NSArray *fields = [response componentsSeparatedByString:@"&"];
-	for (NSString *field in fields) {
-		if ([field hasPrefix:@"oauth_problem="]) {
-			NSString *value = [[field componentsSeparatedByString:@"="] objectAtIndex:1];
-			return [self initWithProblem:value];
+	self = [super init];
+	if (self != nil) {
+		NSArray *fields = [response componentsSeparatedByString:@"&"];
+		for (NSString *field in fields) {
+			if ([field hasPrefix:@"oauth_problem="]) {
+				NSString *value = [[field componentsSeparatedByString:@"="] objectAtIndex:1];
+				[self setProblemToValidProblem:value];
+				if (problem == nil) {
+					[self release];
+					return nil;
+				}
+				
+				return self;
+			}
 		}
+		[self release];
 	}
-	
+
 	return nil;
 }
 
 + (OAProblem *)problemWithResponseBody:(NSString *) response
 {
 	return [[[OAProblem alloc] initWithResponseBody:response] autorelease];
+}
+
+- (void)dealloc
+{
+	[problem release], problem = nil;
+	[super dealloc];
 }
 
 + (NSArray *)validProblems

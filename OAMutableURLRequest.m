@@ -138,10 +138,7 @@ signatureProvider:(NSObject<OASignatureProviding>*)aProvider
 }
 
 - (void)_generateNonce {
-	if (nonce != 0) {
-		CFRelease(nonce), nonce = 0;
-	}
-
+	[nonce release], nonce = nil;
 	CFUUIDRef theUUID = CFUUIDCreate(NULL);
 	if (theUUID == 0) {
 		return;
@@ -224,7 +221,7 @@ signatureProvider:(NSObject<OASignatureProviding>*)aProvider
 	[token release], token = nil;
 	[signatureProvider release], signatureProvider = nil;
 	[timestamp release], timestamp = nil;
-	CFRelease(nonce), nonce = 0;
+	[nonce release], nonce = nil;
 	[super dealloc];
 }
 
